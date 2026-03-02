@@ -1,0 +1,1 @@
+This project covers Python exception handling using try, except, and finally blocks to manage errors gracefully.
