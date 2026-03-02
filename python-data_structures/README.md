@@ -1,0 +1,1 @@
+This project contains various Python scripts that demonstrate the use and manipulation of data structures, specifically lists and tuples.
