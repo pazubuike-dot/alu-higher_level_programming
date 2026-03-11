@@ -1,37 +1,12 @@
 #!/usr/bin/python3
 """
-Solves the N-queens puzzle: placing N non-attacking queens on an NxN board.
+Solves the N-queens puzzle
 """
 import sys
 
 
-def init_board(n):
-    """Initialize an empty list for queen positions."""
-    return []
-
-
-def is_safe(queens, row, col):
-    """Check if a queen can be placed at (row, col)."""
-    for r, c in queens:
-        if c == col or abs(r - row) == abs(c - col):
-            return False
-    return True
-
-
-def solve_nqueens(n, row, queens):
-    """Use backtracking to find all solutions."""
-    if row == n:
-        print(queens)
-        return
-
-    for col in range(n):
-        if is_safe(queens, row, col):
-            queens.append([row, col])
-            solve_nqueens(n, row + 1, queens)
-            queens.pop()  # Backtrack
-
-
-if __name__ == "__main__":
+def nqueens():
+    """Main function to solve N-queens"""
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
@@ -46,4 +21,28 @@ if __name__ == "__main__":
         print("N must be at least 4")
         sys.exit(1)
 
-    solve_nqueens(n, 0, [])
+    solutions = []
+    board = []
+
+    def solve(row):
+        """Backtracking logic to find solutions"""
+        if row == n:
+            print(solutions)
+            return
+
+        for col in range(n):
+            safe = True
+            for r, c in solutions:
+                if c == col or abs(r - row) == abs(c - col):
+                    safe = False
+                    break
+            if safe:
+                solutions.append([row, col])
+                solve(row + 1)
+                solutions.pop()
+
+    solve(0)
+
+
+if __name__ == "__main__":
+    nqueens()
