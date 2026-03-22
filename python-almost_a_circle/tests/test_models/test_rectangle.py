@@ -43,3 +43,30 @@ class TestRectangle(unittest.TestCase):
         r = Rectangle(10, 10, 10, 10, 10)
         r.update(id=89, width=1, height=2)
         self.assertEqual(str(r), "[Rectangle] (89) 10/10 - 1/2")
+
+    def test_create(self):
+        """Test the create method with a dictionary."""
+        r1 = Rectangle(3, 5, 1, 2, 7)
+        r1_dictionary = r1.to_dictionary()
+        r2 = Rectangle.create(**r1_dictionary)
+        self.assertEqual(str(r1), str(r2))
+        self.assertIsNot(r1, r2)
+
+    def test_save_to_file_none(self):
+        """Test save_to_file with None."""
+        Rectangle.save_to_file(None)
+        with open("Rectangle.json", "r") as f:
+            self.assertEqual(f.read(), "[]")
+
+    def test_save_to_file_empty(self):
+        """Test save_to_file with an empty list."""
+        Rectangle.save_to_file([])
+        with open("Rectangle.json", "r") as f:
+            self.assertEqual(f.read(), "[]")
+
+    def test_load_from_file_no_file(self):
+        """Test load_from_file when file does not exist."""
+        import os
+        if os.path.exists("Rectangle.json"):
+            os.remove("Rectangle.json")
+        self.assertEqual(Rectangle.load_from_file(), [])
