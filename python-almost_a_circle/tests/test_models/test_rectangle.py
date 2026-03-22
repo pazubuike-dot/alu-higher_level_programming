@@ -1,30 +1,45 @@
 #!/usr/bin/python3
-"""Unittests for models/rectangle.py"""
+"""Unittests for Rectangle."""
 import unittest
 from models.rectangle import Rectangle
 
 class TestRectangle(unittest.TestCase):
-    """Test cases for the Rectangle class"""
+    """Thorough tests for Rectangle validation and methods."""
 
-    def test_basic_init(self):
-        r = Rectangle(10, 2, 1, 1, 12)
-        self.assertEqual(r.width, 10)
-        self.assertEqual(r.height, 2)
-        self.assertEqual(r.x, 1)
-        self.assertEqual(r.y, 1)
-        self.assertEqual(r.id, 12)
-
-    def test_string_validation(self):
+    def test_type_validation(self):
+        """Test for TypeError on non-integer inputs."""
         with self.assertRaisesRegex(TypeError, "width must be an integer"):
-            Rectangle("10", 2)
+            Rectangle("1", 2)
+        with self.assertRaisesRegex(TypeError, "height must be an integer"):
+            Rectangle(1, "2")
         with self.assertRaisesRegex(TypeError, "x must be an integer"):
-            Rectangle(10, 2, "1")
+            Rectangle(1, 2, "3")
+        with self.assertRaisesRegex(TypeError, "y must be an integer"):
+            Rectangle(1, 2, 3, "4")
 
     def test_value_validation(self):
+        """Test for ValueError on invalid numbers."""
         with self.assertRaisesRegex(ValueError, "width must be > 0"):
-            Rectangle(-10, 2)
+            Rectangle(-1, 2)
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Rectangle(0, 2)
+        with self.assertRaisesRegex(ValueError, "height must be > 0"):
+            Rectangle(1, -2)
+        with self.assertRaisesRegex(ValueError, "height must be > 0"):
+            Rectangle(1, 0)
+        with self.assertRaisesRegex(ValueError, "x must be >= 0"):
+            Rectangle(1, 2, -3)
         with self.assertRaisesRegex(ValueError, "y must be >= 0"):
-            Rectangle(10, 2, 3, -1)
+            Rectangle(1, 2, 3, -4)
 
-    def test_area(self):
-        self.assertEqual(Rectangle(3, 2).area(), 6)
+    def test_update_args(self):
+        """Test the update method with *args."""
+        r = Rectangle(10, 10, 10, 10, 10)
+        r.update(89, 2, 3, 4, 5)
+        self.assertEqual(str(r), "[Rectangle] (89) 4/5 - 2/3")
+
+    def test_update_kwargs(self):
+        """Test the update method with **kwargs."""
+        r = Rectangle(10, 10, 10, 10, 10)
+        r.update(id=89, width=1, height=2)
+        self.assertEqual(str(r), "[Rectangle] (89) 10/10 - 1/2")
