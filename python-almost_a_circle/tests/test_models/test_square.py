@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-"""Unittests for Square."""
+"""Module for Square unit tests."""
 import unittest
 from models.square import Square
 
+
 class TestSquare(unittest.TestCase):
-    """Thorough tests for Square."""
+    """Test cases for the Square class."""
 
     def test_size_validation(self):
         """Test type and value errors for size."""
@@ -35,9 +36,47 @@ class TestSquare(unittest.TestCase):
         self.assertEqual(str(s1), str(s2))
         self.assertIsNot(s1, s2)
 
+    def test_create_square(self):
+        """Test create method for Square."""
+        s1 = Square(5, 1, 1, 9)
+        s1_dict = s1.to_dictionary()
+        s2 = Square.create(**s1_dict)
+        self.assertEqual(str(s1), str(s2))
+        self.assertIsNot(s1, s2)
+
     def test_save_to_file_square(self):
         """Test save_to_file for Square."""
-        s = Square(1)
-        Square.save_to_file([s])
+        Square.save_to_file(None)
+        with open("Square.json", "r") as f:
+            self.assertEqual(f.read(), "[]")
+        Square.save_to_file([Square(1)])
         with open("Square.json", "r") as f:
             self.assertTrue(len(f.read()) > 0)
+
+    def test_load_from_file_square(self):
+        """Test load_from_file for Square."""
+        import os
+        if os.path.exists("Square.json"):
+            os.remove("Square.json")
+        self.assertEqual(Square.load_from_file(), [])
+
+    def test_square_invalid_types(self):
+        """Test Square with invalid types."""
+        with self.assertRaisesRegex(TypeError, "width must be an integer"):
+            Square("1", 2)
+        with self.assertRaisesRegex(TypeError, "x must be an integer"):
+            Square(1, "2")
+
+    def test_square_create(self):
+        """Test Square.create() logic."""
+        s1 = Square(5, 1, 1, 99)
+        s1_dict = s1.to_dictionary()
+        s2 = Square.create(**s1_dict)
+        self.assertEqual(str(s1), str(s2))
+        self.assertIsNot(s1, s2)
+
+    def test_square_save_empty(self):
+        """Test save_to_file with empty list."""
+        Square.save_to_file([])
+        with open("Square.json", "r") as f:
+            self.assertEqual(f.read(), "[]")
