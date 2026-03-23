@@ -109,3 +109,23 @@ class TestRectangle(unittest.TestCase):
         if os.path.exists("Rectangle.json"):
             os.remove("Rectangle.json")
         self.assertEqual(Rectangle.load_from_file(), [])
+
+    def test_display_no_x_y(self):
+        """Test display without x and y."""
+        import io
+        from contextlib import redirect_stdout
+        r = Rectangle(2, 2)
+        f = io.StringIO()
+        with redirect_stdout(f):
+            r.display()
+        self.assertEqual(f.getvalue(), "##\n##\n")
+
+    def test_display_with_x_y(self):
+        """Test display with x and y."""
+        import io
+        from contextlib import redirect_stdout
+        r = Rectangle(2, 2, 1, 1)
+        f = io.StringIO()
+        with redirect_stdout(f):
+            r.display()
+        self.assertEqual(f.getvalue(), "\n ##\n ##\n")

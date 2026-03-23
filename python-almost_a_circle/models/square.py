@@ -7,7 +7,7 @@ class Square(Rectangle):
     """Square class that inherits from Rectangle."""
 
     def __init__(self, size, x=0, y=0, id=None):
-        """Initialize Square."""
+        """Initializes the square"""
         super().__init__(size, size, x, y, id)
 
     @property
@@ -46,10 +46,11 @@ class Square(Rectangle):
             "x": self.x,
             "y": self.y
         }
+
     def update(self, *args, **kwargs):
-        """Update Square attributes."""
-        attrs = ["id", "size", "x", "y"]
-        if args and len(args) > 0:
+        """Updates attributes of the square"""
+        if args and len(args) != 0:
+            attrs = ["id", "size", "x", "y"]
             for i, arg in enumerate(args):
                 if i < len(attrs):
                     setattr(self, attrs[i], arg)
