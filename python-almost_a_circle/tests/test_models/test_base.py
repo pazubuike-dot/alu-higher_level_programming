@@ -80,3 +80,13 @@ class TestBase_save_to_file(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_json_methods(self):
+        """Test to_json_string and from_json_string together."""
+        list_dicts = [{"id": 1, "size": 5}, {"id": 2, "size": 10}]
+        json_str = Base.to_json_string(list_dicts)
+        self.assertTrue(isinstance(json_str, str))
+
+        output = Base.from_json_string(json_str)
+        self.assertEqual(output, list_dicts)
+        self.assertEqual(type(output), list)
