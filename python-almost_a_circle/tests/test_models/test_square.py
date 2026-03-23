@@ -80,3 +80,28 @@ class TestSquare(unittest.TestCase):
         Square.save_to_file([])
         with open("Square.json", "r") as f:
             self.assertEqual(f.read(), "[]")
+
+    def test_square_one_arg(self):
+        """Test Square initialization with only size."""
+        s = Square(5)
+        self.assertEqual(s.size, 5)
+        self.assertEqual(s.x, 0)
+        self.assertEqual(s.y, 0)
+        self.assertIsNotNone(s.id)
+
+    def test_square_two_args(self):
+        """Test Square initialization with size and x."""
+        s = Square(5, 10)
+        self.assertEqual(s.x, 10)
+        self.assertEqual(s.y, 0)
+
+    def test_square_positional_args(self):
+        """Test Square with 1, 2, and 3 positional arguments."""
+        s1 = Square(5)
+        self.assertEqual(s1.size, 5)
+
+        s2 = Square(5, 2)
+        self.assertEqual(s2.x, 2)
+
+        s3 = Square(5, 2, 3)
+        self.assertEqual(s3.y, 3)

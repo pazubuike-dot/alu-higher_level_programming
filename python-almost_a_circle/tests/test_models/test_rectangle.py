@@ -129,3 +129,28 @@ class TestRectangle(unittest.TestCase):
         with redirect_stdout(f):
             r.display()
         self.assertEqual(f.getvalue(), "\n ##\n ##\n")
+
+    def test_rectangle_two_args(self):
+        """Test Rectangle initialization with only width and height."""
+        r = Rectangle(1, 2)
+        self.assertEqual(r.width, 1)
+        self.assertEqual(r.height, 2)
+        self.assertEqual(r.x, 0)
+        self.assertEqual(r.y, 0)
+        self.assertIsNotNone(r.id)
+
+    def test_rectangle_three_args(self):
+        """Test Rectangle initialization with three arguments."""
+        r = Rectangle(1, 2, 3)
+        self.assertEqual(r.x, 3)
+        self.assertEqual(r.y, 0)
+
+    def test_rect_positional_args(self):
+        """Test Rectangle with 2 and 3 positional arguments."""
+        r2 = Rectangle(10, 2)
+        self.assertEqual(r2.width, 10)
+        self.assertEqual(r2.height, 2)
+        
+        r3 = Rectangle(10, 2, 3)
+        self.assertEqual(r3.x, 3)
+        self.assertEqual(r3.y, 0)
