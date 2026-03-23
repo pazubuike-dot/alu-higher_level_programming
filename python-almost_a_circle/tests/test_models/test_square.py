@@ -105,3 +105,12 @@ class TestSquare(unittest.TestCase):
 
         s3 = Square(5, 2, 3)
         self.assertEqual(s3.y, 3)
+
+    def test_square_size_validation(self):
+        """Test Square size validation (uses width error message)."""
+        with self.assertRaisesRegex(TypeError, "width must be an integer"):
+            Square("5")
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Square(-5)
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Square(0)

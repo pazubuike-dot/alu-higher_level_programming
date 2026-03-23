@@ -154,3 +154,27 @@ class TestRectangle(unittest.TestCase):
         r3 = Rectangle(10, 2, 3)
         self.assertEqual(r3.x, 3)
         self.assertEqual(r3.y, 0)
+
+    def test_invalid_types_comprehensive(self):
+        """Test all attributes with non-integer types."""
+        with self.assertRaisesRegex(TypeError, "width must be an integer"):
+            Rectangle([1, 2], 2)
+        with self.assertRaisesRegex(TypeError, "height must be an integer"):
+            Rectangle(2, {"a": 1})
+        with self.assertRaisesRegex(TypeError, "x must be an integer"):
+            Rectangle(2, 3, (1,))
+        with self.assertRaisesRegex(TypeError, "y must be an integer"):
+            Rectangle(2, 3, 4, "string")
+
+    def test_invalid_values_comprehensive(self):
+        """Test all attributes with invalid values (0 or negative)."""
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Rectangle(-1, 2)
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Rectangle(0, 2)
+        with self.assertRaisesRegex(ValueError, "height must be > 0"):
+            Rectangle(2, -5)
+        with self.assertRaisesRegex(ValueError, "x must be >= 0"):
+            Rectangle(2, 3, -1)
+        with self.assertRaisesRegex(ValueError, "y must be >= 0"):
+            Rectangle(2, 3, 4, -10)
