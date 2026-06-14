@@ -1,10 +1,20 @@
 #!/usr/bin/node
-const args = process.argv.slice(2).map(Number);
-
-if (args.length <= 1) {
-  console.log(0);
-} else {
-  // Sort unique items descending or use absolute sort to find sequence
-  args.sort((a, b) => b - a);
-  console.log(args[1]);
-}
+const secondBiggest = () => {
+  const args = process.argv.slice(2);
+  if (args.length < 2) {
+    console.log(0);
+    return;
+  }
+  let max = Number.MIN_SAFE_INTEGER;
+  let secondMax = Number.MIN_SAFE_INTEGER;
+  for (let i = 0; i < args.length; i++) {
+    if (Number(args[i]) > max) {
+      secondMax = max;
+      max = Number(args[i]);
+    } else if (Number(args[i]) > secondMax) {
+      secondMax = Number(args[i]);
+    }
+  }
+  console.log(secondMax);
+};
+secondBiggest();
